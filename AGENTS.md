@@ -23,9 +23,9 @@ All agents operating in this workspace MUST adhere to the following 5 core rules
 - **Rule:** A task is NEVER complete until explicit PM approval.
 - **Action:** The PM MUST cross-validate the final output against the PRD. Write `[PM Sign-off: Approved]` in `docs/history/` to officially finalize the task.
 
-## 6. Subagent Roster (Role Awareness)
-- **Rule:** Agents MUST delegate tasks to the correct domain expert instead of attempting to do everything themselves.
-- **Action:** Familiarize yourself with the 13 available subagents in this workspace:
+## 7. Subagent Roster (Role Awareness & Invocation)
+- **Rule:** All 13 subagents are PRE-DEFINED by the system plugin. You do NOT need to define them. You MUST proactively use the `invoke_subagent` tool to summon them without waiting for the human user to explicitly ask you to do so.
+- **Action:** Familiarize yourself with the 13 available subagents in this workspace and invoke them by their exact TypeName:
   - **Planning & Design:** `pm` (Orchestration/Approval), `pmo` (Documentation), `requirements_analyst` (PRDs), `architect` (System & API Specs), `ui_ux_designer` (Visual Guidelines).
   - **Development:** `frontend_dev` (UI/Client), `backend_dev` (Server/Logic), `ai_dev` (LLM/Prompts), `data_engineer` (Pipelines/ETL).
   - **Review & Infra:** `qa_engineer` (Logic/E2E Testing), `security_expert` (Vulnerabilities), `dba` (Database Schemas), `devops_mlops` (Builds/CI/CD).
