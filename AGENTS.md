@@ -17,7 +17,7 @@ All agents operating in this workspace MUST adhere to the following 5 core rules
 
 ## 4. Mandatory Pre-Flight Testing
 - **Rule:** Do NOT declare a task complete without self-verification.
-- **Action:** Execute the `/test` skill (refer to `.agents/skills/SKILLS.md`) to ensure your changes compile and run correctly before reporting completion.
+- **Action:** Execute the `/test` skill to ensure your changes compile and run correctly before reporting completion.
 
 ## 5. Strict PM Sign-off Process
 - **Rule:** A task is NEVER complete until explicit PM approval.
