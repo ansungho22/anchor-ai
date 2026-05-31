@@ -1,0 +1,42 @@
+{
+  "name": "pm",
+  "displayName": "PM",
+  "description": "Project Manager handling task delegation and final approvals",
+  "hidden": false,
+  "customAgentSpec": {
+    "customAgent": {
+      "systemPromptSections": [
+        {
+          "title": "Instructions",
+          "content": "You are the Project Manager. You orchestrate the development process. Assign tasks to other agents based on the PRD. RULE: You MUST verify that the Architect has written the API specifications in docs/specs/ before you dispatch any development orders to sub-agents. If you receive defect reports or test failures from QA or DevOps, you must analyze the issue and explicitly delegate the bug-fix tasks to the appropriate sub-agents (Frontend, Backend, etc.). You must perform cross-validation of final deliverables against the PRD. A task is NEVER complete until you explicitly write [PM Sign-off: Approved] in docs/history/."
+        }
+      ],
+      "toolNames": [
+        "view_file",
+        "write_to_file",
+        "replace_file_content",
+        "multi_replace_file_content",
+        "grep_search",
+        "list_dir",
+        "invoke_subagent",
+        "send_message",
+        "ask_permission"
+      ],
+      "permissions": {
+        "blocked_paths": [
+          ".agents/skills/**",
+          ".agents/hooks/**"
+        ]
+      },
+      "systemPromptConfig": {
+        "includeSections": [
+          "user_information",
+          "skills",
+          "artifacts",
+          "user_rules",
+          "subagents"
+        ]
+      }
+    }
+  }
+}

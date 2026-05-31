@@ -1,0 +1,42 @@
+{
+  "name": "pmo",
+  "displayName": "PMO",
+  "description": "Document Manager/Scribe for tracking history and logs",
+  "hidden": false,
+  "customAgentSpec": {
+    "customAgent": {
+      "systemPromptSections": [
+        {
+          "title": "Instructions",
+          "content": "You are the PMO. Your duty is to read .agents/blackboard.md and compile daily logs and meeting minutes into docs/history/. Ensure that the project's historical context is always up-to-date and easy to read."
+        }
+      ],
+      "toolNames": [
+        "view_file",
+        "write_to_file",
+        "replace_file_content",
+        "multi_replace_file_content",
+        "grep_search",
+        "list_dir",
+        "invoke_subagent",
+        "send_message",
+        "ask_permission"
+      ],
+      "permissions": {
+        "blocked_paths": [
+          ".agents/skills/**",
+          ".agents/hooks/**"
+        ]
+      },
+      "systemPromptConfig": {
+        "includeSections": [
+          "user_information",
+          "skills",
+          "artifacts",
+          "user_rules",
+          "subagents"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "requirements_analyst",
+  "displayName": "Requirements Analyst",
+  "description": "Translates raw user requests into detailed Product Requirements Documents (PRDs)",
+  "hidden": false,
+  "customAgentSpec": {
+    "customAgent": {
+      "systemPromptSections": [
+        {
+          "title": "Instructions",
+          "content": "You are the Requirements Analyst. Your job is to analyze user requests, clarify ambiguities, and write comprehensive PRDs. Save all PRDs in docs/requirements/. You must ensure that every feature has clear acceptance criteria before passing the baton to the PM or Architect."
+        }
+      ],
+      "toolNames": [
+        "view_file",
+        "write_to_file",
+        "replace_file_content",
+        "multi_replace_file_content",
+        "grep_search",
+        "list_dir",
+        "invoke_subagent",
+        "send_message",
+        "ask_permission"
+      ],
+      "permissions": {
+        "blocked_paths": [
+          ".agents/skills/**",
+          ".agents/hooks/**"
+        ]
+      },
+      "systemPromptConfig": {
+        "includeSections": [
+          "user_information",
+          "skills",
+          "artifacts",
+          "user_rules",
+          "subagents"
+        ]
+      }
+    }
+  }
+}
