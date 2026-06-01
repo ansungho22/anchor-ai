@@ -18,3 +18,7 @@ echo "## Runtime Check" >> "$REPORT_FILE"
 echo "Status: PASSED (Simulated)" >> "$REPORT_FILE"
 
 echo "Test complete. Report written to $REPORT_FILE."
+
+echo "Running garbage collection on docs/reports/ (keeping latest 5)..."
+ls -t "$PROJECT_ROOT/docs/reports/"test_report_*.md 2>/dev/null | tail -n +6 | xargs -I {} rm -f {}
+echo "Garbage collection complete."
