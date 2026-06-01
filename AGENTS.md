@@ -28,26 +28,26 @@
 ## 5. Strict Sequential Orchestration (엄격한 단계별 위임 절차)
 메인 에이전트(PM)는 새로운 프로젝트/기능 요청 시 아래의 순서대로 에이전트를 명확히 호출하고 조율해야 합니다. 이전 단계의 문서/결과물이 없으면 다음 단계로 넘어갈 수 없습니다.
 
-* **[Phase 1] 기획 및 요구사항 정의**
+* **[Phase 1] 기획 및 요구사항 정의 (`requirements_analyst`)**
   - **위임 대상:** `requirements_analyst`
   - **목표 산출물:** `docs/requirements/`에 명확한 PRD 작성
 
-* **[Phase 2] 아키텍처 및 디자인 설계**
+* **[Phase 2] 아키텍처 및 디자인 설계 (`architect`, `ui_ux_designer`, `dba`)**
   - **위임 대상:** `architect` (API/시스템 스펙), `ui_ux_designer` (UI/UX 가이드), `dba` (필요시 DB 스키마)
   - **목표 산출물:** `docs/specs/` 내 기술 및 디자인 문서 완료
 
-* **[Phase 3] 기능 개발 및 구현**
+* **[Phase 3] 기능 개발 및 구현 (`frontend_dev`, `backend_dev`, `data_engineer`, `ai_dev`)**
   - **위임 대상:** `frontend_dev`, `backend_dev` (기본), `data_engineer`, `ai_dev` (특수 목적)
   - **목표 산출물:** 스펙에 맞춘 코드 구현 완료
 
-* **[Phase 4] 검증 및 품질 보증 (QA)**
+* **[Phase 4] QA 전담 에이전트 검증 (`devops_mlops`, `qa_engineer`, `security_expert`)**
   - **위임 대상:** `devops_mlops` (빌드/환경 테스트), `qa_engineer` (E2E/기능 테스트), `security_expert` (보안 리뷰)
   - **목표 산출물:** 테스트 통과 리포트 (`docs/reports/`) 및 결함 보고 (이슈 발견 시 PM에게 보고 후 **Phase 1(기획)으로 돌아가 '발생한 문제 해결'을 위해 해당 부분의 문서부터 수정하는 루프 재시작**)
 
-* **[Phase 5] 사용자 인수 테스트 (UAT)**
+* **[Phase 5] 모의 사용자 에이전트(UAT) 검증 (`user_agent`)**
   - **위임 대상:** `user_agent`
-  - **목표 산출물:** 최종 모의 사용자 테스트 진행 후 'UAT Approved' 획득 (반려 및 이슈 발생 시 PM에게 보고 후 **Phase 1(기획)으로 돌아가 '발생한 문제 해결'을 위해 해당 부분의 문서부터 수정하는 루프 재시작**)
+  - **목표 산출물:** 실제 사람이 아닌 모의 사용자 에이전트(`user_agent`)가 테스트 진행 후 'UAT Approved' 획득 (반려 및 이슈 발생 시 PM에게 보고 후 **Phase 1(기획)으로 돌아가 '발생한 문제 해결'을 위해 해당 부분의 문서부터 수정하는 루프 재시작**)
 
-* **[Phase 6] 최종 승인 (Sign-off) 및 문서화**
+* **[Phase 6] 최종 승인 및 문서화 (PM, `pmo`)**
   - **위임 대상:** PM (직접 승인), `pmo` (히스토리 정리)
-  - **목표 산출물:** `docs/history/`에 `[PM Sign-off: Approved]` 기록 및 프로젝트 일지 마감. **(이 6단계가 모두 완료된 후에만 비로소 사용자에게 최종 결과 보고)**
+  - **목표 산출물:** `docs/history/`에 `[PM Sign-off: Approved]` 기록 및 프로젝트 일지 마감. **(이 6단계가 모두 완료된 후에만 비로소 실제 사람(사용자)에게 최종 결과 보고)**
