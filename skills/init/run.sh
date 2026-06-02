@@ -14,7 +14,7 @@ else
     PROJECT_ROOT=$(pwd)
 fi
 
-CONTEXT_FILE="${PROJECT_ROOT}/.agents/context.md"
+CONTEXT_FILE="${PROJECT_ROOT}/docs/context.md"
 
 # [예방책 3] 디렉토리 쓰기 권한 사전 체크
 if [ ! -w "$PROJECT_ROOT" ]; then
@@ -22,14 +22,16 @@ if [ ! -w "$PROJECT_ROOT" ]; then
     exit 1
 fi
 
-# [예방책 4] .agents 폴더 누락 방지 (혹시 모를 상황 대비)
-mkdir -p "$PROJECT_ROOT/.agents"
+# [예방책 4] docs 폴더 누락 방지
+mkdir -p "$PROJECT_ROOT/docs"
 
 # 블랙보드(상태 공유소)가 없으면 초기화 (기존 기록 보존)
-if [ ! -f "$PROJECT_ROOT/.agents/blackboard.md" ]; then
-    echo "# Agent Blackboard Log" > "$PROJECT_ROOT/.agents/blackboard.md"
-    echo "*Agents: Append your actions to the end of this file in the format \`[Agent Name] - [Modified File/Action] - [Brief Reason]\`.*" >> "$PROJECT_ROOT/.agents/blackboard.md"
-    echo "---" >> "$PROJECT_ROOT/.agents/blackboard.md"
+if [ ! -f "$PROJECT_ROOT/docs/blackboard.md" ]; then
+    echo "# 에이전트 작업 기록 (Blackboard Log)" > "$PROJECT_ROOT/docs/blackboard.md"
+    echo "" >> "$PROJECT_ROOT/docs/blackboard.md"
+    echo "*모든 에이전트는 작업을 완료할 때마다 이 파일의 끝에 \`[에이전트 이름] - [수정된 파일/수행한 작업] - [간단한 이유]\` 형식으로 기록을 남겨야 합니다.*" >> "$PROJECT_ROOT/docs/blackboard.md"
+    echo "" >> "$PROJECT_ROOT/docs/blackboard.md"
+    echo "---" >> "$PROJECT_ROOT/docs/blackboard.md"
 fi
 
 echo "Creating global docs directories if they don't exist..."

@@ -30,3 +30,10 @@ fi
 # Notify PMO Agent (Simulated via log for now)
 echo "Notifying PMO to update docs/history/..."
 echo "[System] Post-task hook triggered. PMO should review blackboard.md." >> "${PROJECT_ROOT}/docs/blackboard.md"
+
+# Run Cleanup Hook: auto-purge tmp_test_* and tmp_mock_* files
+CLEANUP_HOOK="${PROJECT_ROOT}/.agents/hooks/cleanup.sh"
+if [ -x "$CLEANUP_HOOK" ]; then
+    echo "Running cleanup hook..."
+    bash "$CLEANUP_HOOK"
+fi
