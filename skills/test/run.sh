@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Test Skill: 프로젝트 타입에 맞춘 빌드/테스트를 실행하고 리포트를 생성합니다.
+# Test Skill: 다국어(Java, Go, Node.js, Python) 프로젝트 타입에 맞춘 테스트를 실행하고 리포트를 생성합니다.
 set -e
 
 echo "Running tests..."
@@ -12,40 +12,62 @@ echo "# 테스트 리포트" > "$REPORT_FILE"
 echo "실행 시각: $(date)" >> "$REPORT_FILE"
 echo "" >> "$REPORT_FILE"
 
-# 1. Node.js
-if [ -f "${PROJECT_ROOT}/package.json" ]; then
-    echo "## 빌드 및 린트 검사 (Node.js)" >> "$REPORT_FILE"
-    if npm run build --if-present 2>&1 | tee -a "$REPORT_FILE"; then
-        echo "상태: PASSED" >> "$REPORT_FILE"
-    else
-        echo "상태: FAILED" >> "$REPORT_FILE"
-        exit 1
-    fi
-
+# 1. docs/context.md 파싱 (옵션)
+if [ -f "${PROJECT_ROOT}/docs/context.md" ]; then
+    echo "docs/context.md 파일을 감지했습니다. 테스트 환경에 참고합니다."
+    echo "## Context" >> "$REPORT_FILE"
+    cat "${PROJECT_ROOT}/docs/context.md" >> "$REPORT_FILE"
     echo "" >> "$REPORT_FILE"
-    echo "## 테스트 실행 (Node.js)" >> "$REPORT_FILE"
-    if npm test --if-present 2>&1 | tee -a "$REPORT_FILE"; then
+fi
+
+# 테스트 실행 함수
+run_test() {
+    local test_name="$1"
+    local test_cmd="$2"
+    
+    echo "## 테스트 실행 ($test_name)" >> "$REPORT_FILE"
+    echo "명령어: $test_cmd" >> "$REPORT_FILE"
+    
+    # eval을 사용하여 문자열 명령어를 실행하고 로그를 기록
+    if eval "$test_cmd" 2>&1 | tee -a "$REPORT_FILE"; then
         echo "상태: PASSED" >> "$REPORT_FILE"
     else
         echo "상태: FAILED" >> "$REPORT_FILE"
         exit 1
     fi
+    echo "" >> "$REPORT_FILE"
+}
 
-# 2. Python
-elif [ -f "${PROJECT_ROOT}/requirements.txt" ] || [ -f "${PROJECT_ROOT}/pyproject.toml" ]; then
-    echo "## 테스트 실행 (Python)" >> "$REPORT_FILE"
-    if command -v pytest &> /dev/null; then
-        if pytest 2>&1 | tee -a "$REPORT_FILE"; then
-            echo "상태: PASSED" >> "$REPORT_FILE"
-        else
-            echo "상태: FAILED" >> "$REPORT_FILE"
-            exit 1
-        fi
+# 2. Java Maven
+if [ -f "${PROJECT_ROOT}/pom.xml" ]; then
+    run_test "Java Maven" "mvn test"
+
+# 3. Java Gradle
+elif [ -f "${PROJECT_ROOT}/build.gradle" ]; then
+    if [ -f "${PROJECT_ROOT}/gradlew" ]; then
+        run_test "Java Gradle" "./gradlew test"
     else
+        run_test "Java Gradle" "gradle test"
+    fi
+
+# 4. Go
+elif [ -f "${PROJECT_ROOT}/go.mod" ]; then
+    run_test "Go" "go test ./..."
+
+# 5. Node.js
+elif [ -f "${PROJECT_ROOT}/package.json" ]; then
+    run_test "Node.js" "npm test --if-present"
+
+# 6. Python
+elif [ -f "${PROJECT_ROOT}/requirements.txt" ] || [ -f "${PROJECT_ROOT}/pyproject.toml" ]; then
+    if command -v pytest &> /dev/null; then
+        run_test "Python" "pytest"
+    else
+        echo "## 테스트 실행 (Python)" >> "$REPORT_FILE"
         echo "pytest 미설치. 테스트 건너뜀." >> "$REPORT_FILE"
     fi
 
-# 3. 미지원 프로젝트
+# 미지원 프로젝트
 else
     echo "## 프로젝트 타입 미감지" >> "$REPORT_FILE"
     echo "지원되는 프로젝트 설정 파일이 없습니다. 자동 테스트를 건너뜁니다." >> "$REPORT_FILE"

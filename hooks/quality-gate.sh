@@ -11,8 +11,6 @@ if [ -f "${PROJECT_ROOT}/package.json" ]; then
     echo "Detected Node.js project."
     echo "Running npm lint (if exists)..."
     npm run lint --if-present
-    echo "Running npm test (if exists)..."
-    npm test --if-present
     echo "Quality Gate for Node.js passed."
 # 2. Python (requirements.txt or pyproject.toml)
 elif [ -f "${PROJECT_ROOT}/requirements.txt" ] || [ -f "${PROJECT_ROOT}/pyproject.toml" ]; then
