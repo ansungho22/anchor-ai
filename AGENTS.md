@@ -34,7 +34,7 @@
 
 * **[Phase 2] 아키텍처 및 디자인 설계 (`architect`, `ui_ux_designer`, `dba`)**
   - **위임 대상:** `architect` (API/시스템 스펙), `ui_ux_designer` (UI/UX 가이드), `dba` (필요시 DB 스키마)
-  - **목표 산출물:** `docs/specs/` 내 기술 및 디자인 문서 완료
+  - **목표 산출물:** `docs/specs/` 내 기술 스펙, 디자인 문서 완료 (반드시 **Mermaid를 활용한 시퀀스 다이어그램 및 구조도** 포함)
 
 * **[Phase 3] 기능 개발 및 구현 (`frontend_dev`, `backend_dev`, `data_engineer`, `ai_dev`)**
   - **위임 대상:** `frontend_dev`, `backend_dev` (기본), `data_engineer`, `ai_dev` (특수 목적)
