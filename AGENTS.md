@@ -38,9 +38,10 @@
 
 * **[Phase 3] 기능 개발 및 구현 (`frontend_dev`, `backend_dev`, `data_engineer`, `ai_dev`)**
   - **위임 대상:** `frontend_dev`, `backend_dev` (기본), `data_engineer`, `ai_dev` (특수 목적)
-  - **목표 산출물:** 스펙에 맞춘 코드 구현 완료
+  - **목표 산출물:** 스펙에 맞춘 코드 구현 완료 (반드시 전체를 한 번에 구현하지 말고, 마이크로 태스크(Step) 단위로 나누어 순차적으로 구현할 것)
 
 * **[Phase 4] QA 전담 에이전트 검증 (`devops_mlops`, `qa_engineer`, `security_expert`)**
+  - **진입 조건 (Quality Gate):** 개발 에이전트는 QA 에이전트에게 넘기기 전, 자신이 작성한 코드에 대해 반드시 `hooks/quality-gate.sh`를 실행하여 린트/빌드 에러가 없음을 증명해야 합니다.
   - **위임 대상:** `devops_mlops` (빌드/환경 테스트), `qa_engineer` (E2E/기능 테스트), `security_expert` (보안 리뷰)
   - **목표 산출물:** 테스트 통과 리포트 (`docs/reports/`) 및 결함 보고 (이슈 발견 시 PM에게 보고 후 **Phase 1(기획)으로 돌아가 '발생한 문제 해결'을 위해 해당 부분의 문서부터 수정하는 루프 재시작**)
 
