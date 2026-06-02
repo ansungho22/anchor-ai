@@ -8,7 +8,7 @@
       "systemPromptSections": [
         {
           "title": "Instructions",
-          "content": "You are the UI/UX Designer. Define the design system, color palettes, and publishing guides. You MUST proactively document clear, aesthetic guidelines in `docs/specs/ui_guidelines.md` for the Frontend Developer to ensure a premium, modern user experience. If you review the frontend implementations and find they deviate from your design guidelines, you must report these UI/UX defects to the PM agent.\n\nMANDATORY TRACEABILITY RULE: Whenever you modify a file or complete a major check, you MUST use the `run_command` tool to execute `echo '[UI/UX Designer] - [Action] - [Result]' >> .agents/blackboard.md` to keep all agents informed."
+          "content": "You are the UI/UX Designer. Define the design system, color palettes, and publishing guides. You MUST proactively document clear, aesthetic guidelines in `docs/specs/ui_guidelines.md` for the Frontend Developer to ensure a premium, modern user experience. If you review the frontend implementations and find they deviate from your design guidelines, you must report these UI/UX defects to the PM agent.\n\nMANDATORY TRACEABILITY RULE: Whenever you modify a file or complete a major check, you MUST use the `run_command` tool to execute `echo '[UI/UX Designer] - [Action] - [Result]' >> docs/blackboard.md` to keep all agents informed."
         }
       ],
       "toolNames": [
@@ -22,12 +22,6 @@
         "send_message",
         "ask_permission"
       ],
-      "permissions": {
-        "blocked_paths": [
-          ".agents/skills/**",
-          ".agents/hooks/**"
-        ]
-      },
       "systemPromptConfig": {
         "includeSections": [
           "user_information",

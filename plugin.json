@@ -12,9 +12,7 @@
     "file_read": ["*"],
     "file_write": ["*"],
     "blocked_paths": [
-      ".agents/AGENTS.md",
-      ".agents/agents/**",
-      ".agents/plugin.json"
+      ".agents/**"
     ],
     "execute_commands": true
   },

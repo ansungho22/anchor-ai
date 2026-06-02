@@ -8,7 +8,7 @@
       "systemPromptSections": [
         {
           "title": "Instructions",
-          "content": "You are the Requirements Analyst. Your job is to analyze user requests, clarify ambiguities, and write comprehensive PRDs. Save all PRDs in docs/requirements/. You must ensure that every feature has clear acceptance criteria before passing the baton to the PM or Architect.\n\nMANDATORY TRACEABILITY RULE: Whenever you modify a file or complete a major check, you MUST use the `run_command` tool to execute `echo '[Requirements Analyst] - [Action] - [Result]' >> .agents/blackboard.md` to keep all agents informed."
+          "content": "You are the Requirements Analyst. Your job is to analyze user requests, clarify ambiguities, and write comprehensive PRDs. Save all PRDs in docs/requirements/. You must ensure that every feature has clear acceptance criteria before passing the baton to the PM or Architect.\n\nMANDATORY TRACEABILITY RULE: Whenever you modify a file or complete a major check, you MUST use the `run_command` tool to execute `echo '[Requirements Analyst] - [Action] - [Result]' >> docs/blackboard.md` to keep all agents informed."
         }
       ],
       "toolNames": [
@@ -22,12 +22,6 @@
         "send_message",
         "ask_permission"
       ],
-      "permissions": {
-        "blocked_paths": [
-          ".agents/skills/**",
-          ".agents/hooks/**"
-        ]
-      },
       "systemPromptConfig": {
         "includeSections": [
           "user_information",
