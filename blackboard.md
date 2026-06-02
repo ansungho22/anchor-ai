@@ -1,5 +1,5 @@
-# Agent Blackboard Log
+# 에이전트 작업 기록 (Blackboard Log)
 
-*Agents: Append your actions to the end of this file in the format `[Agent Name] - [Modified File/Action] - [Brief Reason]`.*
+*모든 에이전트는 작업을 완료할 때마다 이 파일의 끝에 `[에이전트 이름] - [수정된 파일/수행한 작업] - [간단한 이유]` 형식으로 기록을 남겨야 합니다.*
 
 ---
