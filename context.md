@@ -1,4 +1,4 @@
-# Project Context
+# 프로젝트 컨텍스트 (Project Context)
 
-*This file will be automatically populated by the `/init` skill.*
-*It contains a summary of the project's language, framework, folder structure, and current state.*
+*이 파일은 `/init` 스킬에 의해 자동으로 채워집니다.*
+*프로젝트의 언어, 프레임워크, 폴더 구조 및 현재 상태에 대한 요약이 포함됩니다.*
