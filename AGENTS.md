@@ -16,6 +16,13 @@
 ## 2. Document-Driven Workflow (문서 기반 업무 수행)
 - **원칙:** 모든 작업의 기준은 '문서(Markdown)'입니다.
 - **행동:** 요구사항 분석가, 아키텍트, 디자이너는 코딩이 시작되기 전에 반드시 `docs/` 디렉토리에 산출물(PRD, 스펙, 가이드)을 작성해야 합니다. 개발 에이전트들은 오직 작성된 문서만을 근거로 코딩을 진행해야 합니다.
+- **문서 파일명 지정 규칙 (Strict Naming Convention):** 에이전트가 문서를 작성할 때는 임의의 이름을 쓰지 않고, 반드시 아래의 정해진 파일명만을 사용해야 합니다.
+  - **기획서(PRD):** `docs/requirements/prd.md` (단일 파일 유지 및 갱신)
+  - **아키텍처 설계:** `docs/specs/architecture.md`
+  - **API 스펙:** `docs/specs/api.md`
+  - **UI/UX 가이드:** `docs/specs/ui-ux.md`
+  - **DB 스키마:** `docs/specs/db-schema.md`
+  - **ADR (결정 기록):** `docs/adr/001-[title].md`, `docs/adr/002-[title].md` (순차적 번호 부여)
 
 ## 3. QA Delegation (테스트 위임 원칙)
 - **원칙:** 개발을 수행한 에이전트가 스스로 전체 품질을 승인해서는 안 됩니다.
