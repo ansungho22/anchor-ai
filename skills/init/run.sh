@@ -66,19 +66,51 @@ fi
 echo "Generated at: $(date)" >> "$CONTEXT_FILE"
 echo "" >> "$CONTEXT_FILE"
 
-echo "## Environment" >> "$CONTEXT_FILE"
+echo "## Detected Technologies & Environments" >> "$CONTEXT_FILE"
 
-# [예방책 6] grep/cat 과정에서의 에러에 의해 파이프라인이 죽는 것을 방지
-if [ -f "$PROJECT_ROOT/package.json" ]; then
-    echo "- **Type:** Node.js" >> "$CONTEXT_FILE"
-    echo "- **Dependencies:**" >> "$CONTEXT_FILE"
-    # cat | grep 대신 직접 grep 사용, grep 실패 시에도 스크립트 중단되지 않도록 || true 처리
-    grep -A 10 '"dependencies"' "$PROJECT_ROOT/package.json" >> "$CONTEXT_FILE" 2>/dev/null || echo "  (See package.json or no dependencies found)" >> "$CONTEXT_FILE"
-elif [ -f "$PROJECT_ROOT/pyproject.toml" ] || [ -f "$PROJECT_ROOT/requirements.txt" ]; then
-    echo "- **Type:** Python" >> "$CONTEXT_FILE"
-    echo "- **Frameworks:** Check pyproject.toml / requirements.txt" >> "$CONTEXT_FILE"
-else
-    echo "- **Type:** Unknown / Generic" >> "$CONTEXT_FILE"
+# 1. Containerization (Docker)
+if find "$PROJECT_ROOT" -maxdepth 2 -name "Dockerfile" -o -name "docker-compose.yml" 2>/dev/null | grep -q .; then
+    echo "- **Containerization:** Docker detected (Dockerfile or docker-compose.yml)" >> "$CONTEXT_FILE"
+fi
+
+# 2. Node.js Ecosystem
+if find "$PROJECT_ROOT" -maxdepth 2 -name "package.json" 2>/dev/null | grep -q .; then
+    echo "- **Node.js Environment:** Detected" >> "$CONTEXT_FILE"
+    for pkg in $(find "$PROJECT_ROOT" -maxdepth 2 -name "package.json" 2>/dev/null); do
+        dir_name=$(basename "$(dirname "$pkg")")
+        [ "$dir_name" = "$(basename "$PROJECT_ROOT")" ] && dir_name="Root"
+        echo "  - Module [\`$dir_name\`]: Check package.json for frameworks (e.g., React, Vue, Express, Vite)" >> "$CONTEXT_FILE"
+    done
+fi
+
+# 3. Python Ecosystem
+if find "$PROJECT_ROOT" -maxdepth 2 \( -name "pyproject.toml" -o -name "requirements.txt" \) 2>/dev/null | grep -q .; then
+    echo "- **Python Environment:** Detected" >> "$CONTEXT_FILE"
+    for pyfile in $(find "$PROJECT_ROOT" -maxdepth 2 \( -name "pyproject.toml" -o -name "requirements.txt" \) 2>/dev/null); do
+        dir_name=$(basename "$(dirname "$pyfile")")
+        [ "$dir_name" = "$(basename "$PROJECT_ROOT")" ] && dir_name="Root"
+        echo "  - Module [\`$dir_name\`]: Check pyproject.toml / requirements.txt for frameworks (e.g., FastAPI, Django, Flask, uv)" >> "$CONTEXT_FILE"
+    done
+fi
+
+# 4. Java / Spring
+if find "$PROJECT_ROOT" -maxdepth 2 \( -name "pom.xml" -o -name "build.gradle" \) 2>/dev/null | grep -q .; then
+    echo "- **Java/JVM Environment:** Detected (Maven/Gradle)" >> "$CONTEXT_FILE"
+fi
+
+# 5. Go
+if find "$PROJECT_ROOT" -maxdepth 2 -name "go.mod" 2>/dev/null | grep -q .; then
+    echo "- **Go Environment:** Detected" >> "$CONTEXT_FILE"
+fi
+
+# 6. Database & Migrations
+if find "$PROJECT_ROOT" -maxdepth 3 \( -name "alembic.ini" -o -name "prisma" -o -name "migrations" \) 2>/dev/null | grep -q .; then
+    echo "- **Database/ORM:** Migrations or ORM config detected (e.g., Alembic, Prisma)" >> "$CONTEXT_FILE"
+fi
+
+# 아무것도 발견되지 않았을 경우
+if ! grep -q "Environment:\*\*" "$CONTEXT_FILE"; then
+    echo "- **Type:** Unknown / Generic / Plain Text" >> "$CONTEXT_FILE"
 fi
 
 echo "" >> "$CONTEXT_FILE"
