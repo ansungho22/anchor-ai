@@ -12,7 +12,8 @@
     "file_read": ["*"],
     "file_write": ["*"],
     "blocked_paths": [
-      ".agents/**"
+      ".agents/**",
+      "docs/templates/**"
     ],
     "execute_commands": true
   },
