@@ -18,7 +18,7 @@
 - **행동:** 요구사항 분석가, 아키텍트, 디자이너는 코딩이 시작되기 전에 반드시 `docs/` 디렉토리에 산출물(PRD, 스펙, 가이드)을 작성해야 합니다. 개발 에이전트들은 오직 작성된 문서만을 근거로 코딩을 진행해야 합니다.
 - **문서 파일명 지정 규칙 (Strict Naming Convention):** 에이전트가 문서를 작성할 때는 반드시 기준 이름 뒤에 **기능명(Feature Name)**을 덧붙여야 합니다. (소문자 및 하이픈 권장)
   - **기획서(PRD):** `docs/requirements/prd-[기능명].md` (예: `prd-login.md`)
-  - **아키텍처 설계:** `docs/specs/architecture-[기능명].md`
+  - **아키텍처 설계:** `docs/specs/architecture.md` (단일 전체 시스템 구조도)
   - **API 스펙:** `docs/specs/api-[기능명].md`
   - **UI/UX 가이드:** `docs/specs/ui-ux-[기능명].md`
   - **DB 스키마:** `docs/specs/db-schema-[기능명].md`
