@@ -65,6 +65,7 @@ graph TD
     SEC -.->|Uses| S_SS[security_scan]
     G3 -.->|Uses| S_R[report]
     PMO -.->|Uses| S_L[log]
+    UA -.->|Uses| S_UAT[uat_test]
 
     %% Hooks Relationships
     G2 -->|Runs before Hand-over| H_QG((quality-gate.sh))
@@ -79,13 +80,13 @@ graph TD
 
     class G1,G2,G3 group;
     class H_QG,H_PP,H_PT,H_C hook;
-    class S_VM,S_SR,S_T,S_SS,S_R,S_L skill;
+    class S_VM,S_SR,S_T,S_SS,S_R,S_L,S_UAT skill;
 ```
 
 ### 훅 (Hooks) - 자동화 및 게이트웨이 시스템
 훅은 시스템 레벨에서 개입하여 각 Phase의 전제 조건과 품질을 강제하는 스크립트입니다.
-- **`pre-phase.sh`**: 워크플로우 Phase 전환 시 선행 산출물(기획서, 스펙 등) 유무를 검사합니다. 실패 시 파이프라인 진행을 차단합니다.
-- **`quality-gate.sh`**: 개발자가 코드를 제출하기 전 실행되는 품질 게이트로, 가벼운 정적 분석(Lint 등)을 수행하여 기본 품질을 검증합니다. 통과하지 못하면 에이전트가 자체 수정해야 합니다.
+- **`pre-phase.sh`**: 워크플로우 Phase 전환 시 선행 산출물 유무 및 소스 코드 여부를 폭넓게 검사합니다. 실패 시 파이프라인 진행을 차단합니다.
+- **`quality-gate.sh`**: 정적 분석을 수행하여 기본 품질을 검증합니다. 프로젝트 루트에 `scripts/lint.sh`나 `Makefile`이 있으면 우선 실행하며(Convention over Configuration), 없으면 Java, Go, Node.js, Python 언어를 추론하여 기본 린터를 실행합니다.
 - **`post-task.sh`**: 에이전트의 태스크 완료 후 호출되는 연쇄 트리거 훅입니다. `quality-gate.sh`를 동기적으로 실행하고 통과 시 `test` 스킬을 백그라운드로 돌리며, 완료 상태 로깅(`docs/blackboard.md`) 및 임시 파일을 정리합니다.
 - **`cleanup.sh`**: 작업이 완료되거나 오류 종료될 때 불필요한 캐시 파일이나 임시 테스트 폴더 등을 정리(가비지 컬렉션)합니다.
 
@@ -94,9 +95,10 @@ graph TD
 - **`init`**: 프로젝트 및 작업 환경 초기화 (`docs/` 하위 폴더 생성, 블랙보드 초기화, `docs/context.md` 작성).
 - **`log`**: 작업 상태와 이슈를 `docs/blackboard.md`에 통일된 양식으로 실시간 기록 (에이전트 작업 추적성 보장).
 - **`spec_reader`**: 개발 전 기획서나 시스템 스펙 문서를 읽어들여 에이전트가 개발 컨텍스트를 파악할 수 있도록 돕습니다.
-- **`test`**: 다국어(Java, Go, Node.js, Python) 프로젝트 타입을 감지하여 적합한 테스트 러너 실행 및 리포트를 자동 생성합니다 (`docs/reports/`).
+- **`test`**: 다국어(Java, Go, Node.js, Python) 프로젝트 타입을 감지하여 적합한 테스트 러너 실행 및 리포트를 자동 생성합니다. `scripts/test.sh` 파일이 있으면 오버라이드하여 우선 실행합니다.
 - **`report`**: QA, 보안, UAT 작업 후 표준 보고서 마크다운 템플릿(`docs/reports/`)을 자동 생성합니다.
 - **`security_scan`**: 취약점 점검을 위해 언어에 맞는 정적 보안 분석기(npm audit, bandit 등)를 실행하여 리포팅합니다 (Read-Only).
+- **`uat_test`**: `user_agent` 전용 스킬로, 자율적인 앱 동적 탐색을 마친 뒤 모의 테스트 결과와 승인/반려(APPROVE/REJECT) 여부를 공식 리포트로 발행합니다.
 - **`validate_mermaid`**: 아키텍트가 설계 다이어그램 작성 시 문법 오류를 `mmdc`를 통해 렌더링 시뮬레이션하여 사전 검증합니다.
 
 ## 🛠️ 시작하기 (Getting Started)
