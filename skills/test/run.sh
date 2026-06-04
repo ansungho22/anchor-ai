@@ -38,11 +38,19 @@ run_test() {
     echo "" >> "$REPORT_FILE"
 }
 
-# 2. Java Maven
-if [ -f "${PROJECT_ROOT}/pom.xml" ]; then
+# 2. Custom Script Override
+if [ -x "${PROJECT_ROOT}/scripts/test.sh" ]; then
+    run_test "Custom Script" "${PROJECT_ROOT}/scripts/test.sh"
+
+# 3. Makefile Override
+elif [ -f "${PROJECT_ROOT}/Makefile" ] && grep -qE "^test\s*:" "${PROJECT_ROOT}/Makefile" 2>/dev/null; then
+    run_test "Makefile" "make test"
+
+# 4. Java Maven
+elif [ -f "${PROJECT_ROOT}/pom.xml" ]; then
     run_test "Java Maven" "mvn test"
 
-# 3. Java Gradle
+# 5. Java Gradle
 elif [ -f "${PROJECT_ROOT}/build.gradle" ]; then
     if [ -f "${PROJECT_ROOT}/gradlew" ]; then
         run_test "Java Gradle" "./gradlew test"
@@ -50,15 +58,15 @@ elif [ -f "${PROJECT_ROOT}/build.gradle" ]; then
         run_test "Java Gradle" "gradle test"
     fi
 
-# 4. Go
+# 6. Go
 elif [ -f "${PROJECT_ROOT}/go.mod" ]; then
     run_test "Go" "go test ./..."
 
-# 5. Node.js
+# 7. Node.js
 elif [ -f "${PROJECT_ROOT}/package.json" ]; then
     run_test "Node.js" "npm test --if-present"
 
-# 6. Python
+# 8. Python
 elif [ -f "${PROJECT_ROOT}/requirements.txt" ] || [ -f "${PROJECT_ROOT}/pyproject.toml" ]; then
     if command -v pytest &> /dev/null; then
         run_test "Python" "pytest"

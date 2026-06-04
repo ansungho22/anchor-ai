@@ -40,7 +40,7 @@ case "$PHASE" in
         ;;
     4)
         # Phase 4 진입 → 소스 코드가 존재하는지 기본 확인
-        if find "$PROJECT_ROOT/src" "$PROJECT_ROOT/app" "$PROJECT_ROOT/pages" "$PROJECT_ROOT/components" -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" -o -name "*.py" 2>/dev/null | head -1 | grep -q .; then
+        if find "$PROJECT_ROOT/src" "$PROJECT_ROOT/app" "$PROJECT_ROOT/pages" "$PROJECT_ROOT/components" "$PROJECT_ROOT/cmd" "$PROJECT_ROOT/pkg" "$PROJECT_ROOT/internal" "$PROJECT_ROOT/lib" "$PROJECT_ROOT/api" -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" -o -name "*.py" -o -name "*.go" -o -name "*.java" -o -name "*.rs" -o -name "*.cpp" 2>/dev/null | head -1 | grep -q .; then
             echo "✅ Phase 4: 소스 코드 확인됨. 진입 허용."
         else
             echo "❌ Phase 4 진입 차단: 구현된 소스 코드를 찾을 수 없습니다."
