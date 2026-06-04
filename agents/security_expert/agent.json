@@ -19,7 +19,6 @@
         "run_command",
         "grep_search",
         "list_dir",
-        "invoke_subagent",
         "send_message",
         "ask_permission"
       ],

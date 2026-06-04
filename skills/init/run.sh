@@ -36,15 +36,35 @@ fi
 
 echo "Creating global docs directories if they don't exist..."
 # 디렉토리 생성 실패 시 에러 출력 후 안전하게 스크립트 종료
-mkdir -p "$PROJECT_ROOT/docs/requirements" "$PROJECT_ROOT/docs/specs" "$PROJECT_ROOT/docs/adr" "$PROJECT_ROOT/docs/reports" "$PROJECT_ROOT/docs/history" || {
+mkdir -p "$PROJECT_ROOT/docs/requirements" "$PROJECT_ROOT/docs/specs" "$PROJECT_ROOT/docs/adr" "$PROJECT_ROOT/docs/reports" "$PROJECT_ROOT/docs/history" "$PROJECT_ROOT/docs/templates" || {
     echo "ERROR: docs 하위 디렉토리 생성에 실패했습니다. 권한을 확인해주세요." >&2
     exit 1
 }
 
 # .gitkeep 생성 (실패해도 치명적이지 않으므로 경고만 띄우고 계속 진행)
-touch "$PROJECT_ROOT/docs/requirements/.gitkeep" "$PROJECT_ROOT/docs/specs/.gitkeep" "$PROJECT_ROOT/docs/adr/.gitkeep" "$PROJECT_ROOT/docs/reports/.gitkeep" "$PROJECT_ROOT/docs/history/.gitkeep" || {
+touch "$PROJECT_ROOT/docs/requirements/.gitkeep" "$PROJECT_ROOT/docs/specs/.gitkeep" "$PROJECT_ROOT/docs/adr/.gitkeep" "$PROJECT_ROOT/docs/reports/.gitkeep" "$PROJECT_ROOT/docs/history/.gitkeep" "$PROJECT_ROOT/docs/templates/.gitkeep" || {
     echo "WARNING: .gitkeep 파일 생성에 실패했습니다. 계속 진행합니다." >&2
 }
+
+# [예방책 4.1] 템플릿 파일 복사
+# 에이전트 프레임워크의 templates 폴더 위치 찾기
+if [ -d "$PROJECT_ROOT/.agents/templates" ]; then
+    TEMPLATE_SRC="$PROJECT_ROOT/.agents/templates"
+elif [ -d "$PROJECT_ROOT/templates" ]; then
+    TEMPLATE_SRC="$PROJECT_ROOT/templates"
+else
+    TEMPLATE_SRC=""
+fi
+
+if [ -n "$TEMPLATE_SRC" ]; then
+    echo "Copying reference templates..."
+    cp "$TEMPLATE_SRC/"*.md "$PROJECT_ROOT/docs/templates/" 2>/dev/null || true
+    
+    # docs/adr/README.md 가 없을 경우에만 초기화
+    if [ ! -f "$PROJECT_ROOT/docs/adr/README.md" ] && [ -f "$TEMPLATE_SRC/adr-readme.md" ]; then
+        cp "$TEMPLATE_SRC/adr-readme.md" "$PROJECT_ROOT/docs/adr/README.md"
+    fi
+fi
 
 # [예방책 5] context.md 파일 쓰기 검증
 if ! echo "# Project Context" > "$CONTEXT_FILE"; then
