@@ -14,8 +14,8 @@ REPORT_TYPE="$2"
 PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
 mkdir -p "${PROJECT_ROOT}/docs/reports"
 
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-REPORT_FILE="${PROJECT_ROOT}/docs/reports/${REPORT_TYPE}_report_${TIMESTAMP}.md"
+REPORT_TYPE_LOWER=$(echo "$REPORT_TYPE" | tr '[:upper:]' '[:lower:]')
+REPORT_FILE="${PROJECT_ROOT}/docs/reports/${REPORT_TYPE_LOWER}-report.md"
 
 cat > "$REPORT_FILE" << EOF
 # ${REPORT_TYPE} 리포트

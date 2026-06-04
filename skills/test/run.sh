@@ -6,7 +6,7 @@ echo "Running tests..."
 
 PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
 mkdir -p "${PROJECT_ROOT}/docs/reports"
-REPORT_FILE="${PROJECT_ROOT}/docs/reports/test_report_$(date +%Y%m%d%H%M%S).md"
+REPORT_FILE="${PROJECT_ROOT}/docs/reports/test-report.md"
 
 echo "# 테스트 리포트" > "$REPORT_FILE"
 echo "실행 시각: $(date)" >> "$REPORT_FILE"
@@ -84,8 +84,3 @@ fi
 echo "" >> "$REPORT_FILE"
 echo "---" >> "$REPORT_FILE"
 echo "테스트 완료. 리포트: $REPORT_FILE"
-
-# 리포트 가비지 컬렉션 (최근 5개만 유지)
-echo "docs/reports/ 가비지 컬렉션 실행 중 (최근 5개 유지)..."
-ls -t "$PROJECT_ROOT/docs/reports/"test_report_*.md 2>/dev/null | tail -n +6 | xargs -I {} rm -f {}
-echo "가비지 컬렉션 완료."

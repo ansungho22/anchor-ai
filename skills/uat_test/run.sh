@@ -24,7 +24,7 @@ fi
 
 PROJECT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
 mkdir -p "${PROJECT_ROOT}/docs/reports"
-REPORT_FILE="${PROJECT_ROOT}/docs/reports/uat_report_$(date +%Y%m%d%H%M%S).md"
+REPORT_FILE="${PROJECT_ROOT}/docs/reports/uat-report.md"
 
 echo "Generating UAT Report..."
 
@@ -45,8 +45,5 @@ else
     echo "### 최종 상태: UAT Rejected" >> "$REPORT_FILE"
     echo "❌ UAT 실패 (UAT Rejected). 리포트: $REPORT_FILE"
 fi
-
-# UAT 리포트 가비지 컬렉션 (최근 5개만 유지)
-ls -t "$PROJECT_ROOT/docs/reports/"uat_report_*.md 2>/dev/null | tail -n +6 | xargs -I {} rm -f {}
 
 exit 0
